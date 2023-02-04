@@ -22,7 +22,8 @@ export const actionEditTask = (todo) => ({
 });
 
 
-export const actionChangeEditor = (id) => ({
+export const actionChangeEditor = (id, op) => ({
     type: CHANGE_TO_EDITOR,
-    id
+    id,
+    op
 })

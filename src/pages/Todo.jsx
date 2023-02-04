@@ -23,7 +23,15 @@ const Todo = ({
     const newObj = { task, id: idToEdit}
     const newList = [...arrFilter, newObj]
     actionEditTask(newList);
+    if(task){
+      changeEditor(0);
+      setTask("");
+    }
+  }
+
+  const handleCancelEdit = () => {
     changeEditor(0);
+    setTask("");
   }
 
  
@@ -35,6 +43,15 @@ const Todo = ({
           type="text" 
           value={task}
           onChange={({target: {value}}) => setTask(value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              if (!editor) {
+                handleAddTask();
+              } else {
+                handleEditTask();
+              }
+            }
+          }}
           placeholder='Digite aqui uma anotação' />
         <div>
           {
@@ -44,11 +61,24 @@ const Todo = ({
               </ButtonAddEditTask>
             )
             :
-            <ButtonAddEditTask 
+            <>
+              <ButtonAddEditTask 
               onClick={handleEditTask}
               >
                 <AiFillEdit/>
-            </ButtonAddEditTask>
+                
+              </ButtonAddEditTask>
+
+              <ButtonAddEditTask 
+              onClick={handleCancelEdit}
+              >
+                <MdRemoveCircle />
+                
+              </ButtonAddEditTask>
+              
+            </>
+            
+            
           }
         </div>
         
@@ -65,13 +95,17 @@ const Todo = ({
                 </div>
                 
 
-                <ButtonRemove onClick={() => removeTask(e)}>
+                <ButtonRemove onClick={() => {removeTask(e); setTask("")}}>
                   <MdRemoveCircle />
                 </ButtonRemove>
 
-                  <ButtonEdit onClick={() => changeEditor(e.id)}>
-                      <AiFillEdit/>
-                  </ButtonEdit>
+                <ButtonEdit onClick={() => {
+                  changeEditor(e.id,'editTask');
+                  setTask(e.task);
+                }}
+                >
+                  <AiFillEdit/>
+                </ButtonEdit>
                 
               </div>
             ))
@@ -85,7 +119,7 @@ const Todo = ({
 const mapDispatchToProps = (dispatch) => ({
     addTask: (task) => dispatch(actionAddTask(task)),
     removeTask: (task) => dispatch(actionRemoveTask(task)),
-    changeEditor: (id ) => dispatch(actionChangeEditor(id)),
+    changeEditor: (id, op) => dispatch(actionChangeEditor(id,op)),
     actionEditTask: (todo) => dispatch(actionEditTask(todo))
 })
 

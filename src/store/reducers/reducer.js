@@ -17,7 +17,8 @@ const reducer = (state = INITIAL_STATE, action) => {
         case REMOVE_TASK:
             return {
                 ...state,
-                tasks: state.tasks.filter((e) => e.id !== action.id)
+                tasks: state.tasks.filter((e) => e.id !== action.id),
+                editor: false
             }
         case EDIT_TASK:
             return {
@@ -25,11 +26,18 @@ const reducer = (state = INITIAL_STATE, action) => {
                 tasks: action.todo
             }
         case CHANGE_TO_EDITOR:
+            if(state.editor && action.op === 'editTask'){
+                return {
+                    ...state,
+                    idToEdit: action.id
+                }
+            }
             return {
                 ...state,
                 editor: !state.editor,
                 idToEdit: action.id
             }
+
         default:
             return state            
     }

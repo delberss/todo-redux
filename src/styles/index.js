@@ -21,11 +21,19 @@ export const AreaAddEditTask = styled.div`
         margin: 10px 0;
         outline: none;
         padding: 0 10px 10px;
-        width: 90%;
+        width: 80%;
         height: 50px;
         border: none;
         border-radius: 5px;
         font-size: 1.3em;
+    }
+
+    div{
+      width: 20%;
+      display: flex;
+      justify-content: left;
+      padding: 0px;
+      margin: 0px;
     }
 `
 
